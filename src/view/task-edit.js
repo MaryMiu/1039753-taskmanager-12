@@ -67,17 +67,17 @@ const createTaskEditColorsTemplate = (currentColor) => {
 export const createTaskEditTemplate = (task = {}) => {
   const {
     color = `black`,
-      description = ``,
-      dueDate = null,
-      repeating = {
-        mo: false,
-        tu: false,
-        we: false,
-        th: false,
-        fr: false,
-        sa: false,
-        su: false
-      }
+    description = ``,
+    dueDate = null,
+    repeating = {
+      mo: false,
+      tu: false,
+      we: false,
+      th: false,
+      fr: false,
+      sa: false,
+      su: false
+    }
   } = task;
 
   const deadlineClassName = isTaskExpired(dueDate) ?
