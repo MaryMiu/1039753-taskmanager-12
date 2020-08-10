@@ -1,5 +1,9 @@
-import {COLORS} from "../const.js";
-import {getRandomInteger} from "../utils.js";
+import {
+  COLORS
+} from "../const.js";
+import {
+  getRandomInteger
+} from "../utils.js";
 
 const generateDescription = () => {
   const description = [
@@ -31,15 +35,13 @@ const generateDate = () => {
 
 const generateRepeating = () => {
   return {
-    repeating: {
-      mo: false,
-      tu: false,
-      we: Boolean(getRandomInteger(0, 1)),
-      th: false,
-      fr: Boolean(getRandomInteger(0, 1)),
-      sa: false,
-      su: false
-    }
+    mo: false,
+    tu: false,
+    we: Boolean(getRandomInteger(0, 1)),
+    th: false,
+    fr: Boolean(getRandomInteger(0, 1)),
+    sa: false,
+    su: false
   };
 };
 

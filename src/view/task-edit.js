@@ -1,5 +1,11 @@
-import {COLORS} from "../const.js";
-import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from "../utils.js";
+import {
+  COLORS
+} from "../const.js";
+import {
+  isTaskExpired,
+  isTaskRepeating,
+  humanizeTaskDueDate
+} from "../utils.js";
 
 const createTaskEditDateTemplate = (dueDate) => {
   return `<button class="card__date-deadline-toggle" type="button">
@@ -43,20 +49,19 @@ const createTaskEditRepeatingTemplate = (repeating) => {
 };
 
 const createTaskEditColorsTemplate = (currentColor) => {
-
   return COLORS.map((color) => `<input
-  type="radio"
-  id="color-${color}"
-  class="card__color-input card__color-input--${color} visually-hidden"
-  name="color"
-  value="${color}"
-  ${currentColor === color ? `checked` : ``}
-/>
-<label
-  for="color-${color}"
-  class="card__color card__color--${color}"
-  >${color}</label
->`).join(``);
+    type="radio"
+    id="color-${color}"
+    class="card__color-input card__color-input--${color} visually-hidden"
+    name="color"
+    value="${color}"
+    ${currentColor === color ? `checked` : ``}
+  />
+  <label
+    for="color-${color}"
+    class="card__color card__color--${color}"
+    >${color}</label
+  >`).join(``);
 };
 
 export const createTaskEditTemplate = (task = {}) => {
@@ -118,7 +123,7 @@ export const createTaskEditTemplate = (task = {}) => {
           <div class="card__colors-inner">
             <h3 class="card__colors-title">Color</h3>
             <div class="card__colors-wrap">
-            ${colorsTemplate}
+              ${colorsTemplate}
             </div>
           </div>
         </div>
