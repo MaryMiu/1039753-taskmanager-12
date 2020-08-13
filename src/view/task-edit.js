@@ -1,6 +1,6 @@
 import {
   COLORS
-} from "../const.js";
+} from "../constants.js";
 import {
   isTaskExpired,
   isTaskRepeating,

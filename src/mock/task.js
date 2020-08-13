@@ -1,6 +1,6 @@
 import {
   COLORS
-} from "../const.js";
+} from "../constants.js";
 import {
   getRandomInteger
 } from "../utils.js";
@@ -12,9 +12,7 @@ const generateDescription = () => {
     `Пройти интенсив на соточку`
   ];
 
-  const randomIndex = getRandomInteger(0, description.length - 1);
-
-  return description[randomIndex];
+  return description[getRandomInteger(0, description.length - 1)];
 };
 
 const generateDate = () => {
@@ -30,25 +28,24 @@ const generateDate = () => {
   currentDate.setHours(23, 59, 59, 999);
   currentDate.setDate(currentDate.getDate() + daysGap);
 
-  return new Date(currentDate);
+  return currentDate;
 };
 
 const generateRepeating = () => {
   return {
-    mo: false,
-    tu: false,
+    mo: Boolean(getRandomInteger(0, 1)),
+    tu: Boolean(getRandomInteger(0, 1)),
     we: Boolean(getRandomInteger(0, 1)),
-    th: false,
+    th: Boolean(getRandomInteger(0, 1)),
     fr: Boolean(getRandomInteger(0, 1)),
-    sa: false,
-    su: false
+    sa: Boolean(getRandomInteger(0, 1)),
+    su: Boolean(getRandomInteger(0, 1))
   };
 };
 
 const getRandomColor = () => {
-  const randomIndex = getRandomInteger(0, COLORS.length - 1);
 
-  return COLORS[randomIndex];
+  return COLORS[getRandomInteger(0, COLORS.length - 1)];
 };
 
 export const generateTask = () => {

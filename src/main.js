@@ -1,5 +1,5 @@
 const TASK_COUNT = 22;
-const TASK_COUNT_PER_STEP = 8;
+const TASKS_COUNT_PER_STEP = 8;
 
 const tasks = new Array(TASK_COUNT).fill().map(generateTask);
 
@@ -45,25 +45,28 @@ const taskListElement = siteMainElement.querySelector(`.board__tasks`);
 
 render(taskListElement, createTaskEditTemplate(tasks[0]), `beforeend`);
 
-for (let i = 1; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
+for (let i = 1; i < Math.min(tasks.length, TASKS_COUNT_PER_STEP); i++) {
   render(taskListElement, createTaskTemplate(tasks[i]), `beforeend`);
 }
 
-if (tasks.length > TASK_COUNT_PER_STEP) {
-  let renderedTaskCount = TASK_COUNT_PER_STEP;
+if (tasks.length > TASKS_COUNT_PER_STEP) {
+  let renderedTasksCount = TASKS_COUNT_PER_STEP;
   render(boardElement, createLoadMoreButtonTemplate(), `beforeend`);
 
   const loadMoreButton = boardElement.querySelector(`.load-more`);
 
   loadMoreButton.addEventListener(`click`, (evt) => {
+    let renderedTasksPerStep = ``;
     evt.preventDefault();
     tasks
-      .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-      .forEach((task) => render(taskListElement, createTaskTemplate(task), `beforeend`));
+      .slice(renderedTasksCount, renderedTasksCount + TASKS_COUNT_PER_STEP)
+      .forEach((task) => (renderedTasksPerStep += createTaskTemplate(task)));
 
-    renderedTaskCount += TASK_COUNT_PER_STEP;
+    render(taskListElement, renderedTasksPerStep, `beforeend`);
 
-    if (renderedTaskCount >= tasks.length) {
+    renderedTasksCount += TASKS_COUNT_PER_STEP;
+
+    if (renderedTasksCount >= tasks.length) {
       loadMoreButton.remove();
     }
   });
