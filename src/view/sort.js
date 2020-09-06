@@ -2,19 +2,23 @@ import {
   createElement
 } from "../utils.js";
 
-const createLoadMoreButtonTemplate = () => {
+const createSortTemplate = () => {
   return (
-    `<button class="load-more" type="button">load more</button>`
+    `<div class="board__filter-list">
+      <a href="#" class="board__filter">SORT BY DEFAULT</a>
+      <a href="#" class="board__filter">SORT BY DATE up</a>
+      <a href="#" class="board__filter">SORT BY DATE down</a>
+    </div>`
   );
 };
 
-export default class LoadMoreButton {
+export default class Sort {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createLoadMoreButtonTemplate();
+    return createSortTemplate();
   }
 
   getElement() {
