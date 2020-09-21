@@ -6,27 +6,34 @@ export const renderPosition = {
 };
 
 export const render = (container, child, place) => {
-  if (container instanceof Abstract) {
-    container = container.getElement();
+  let containerElement = container;
+  let childElement = child;
+
+  if (containerElement instanceof Abstract) {
+    containerElement = container.getElement();
   }
-  if (child instanceof Abstract) {
-    child = child.getElement();
+
+  if (childElement instanceof Abstract) {
+    childElement = child.getElement();
   }
+
   switch (place) {
-    case (renderPosition.AFTERBEGIN):
-      container.prepend(child);
+    case renderPosition.AFTERBEGIN:
+      containerElement.prepend(childElement);
       break;
-    case (renderPosition.BEFOREEND):
-      container.append(child);
+    case renderPosition.BEFOREEND:
+      containerElement.append(childElement);
       break;
   }
 };
 
 export const renderTemplate = (container, template, place) => {
-  if (container instanceof Abstract) {
-    container = container.getElement();
+  let containerElement = container;
+
+  if (containerElement instanceof Abstract) {
+    containerElement = container.getElement();
   }
-  container.insertAdjacentHTML(place, template);
+  containerElement.insertAdjacentHTML(place, template);
 };
 
 export const createElement = (template) => {
