@@ -5,6 +5,8 @@ import {
   getRandomInteger
 } from "../utils/common.js";
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateDescription = () => {
   const description = [
     `Изучить теорию`,
@@ -62,6 +64,7 @@ export const generateTask = () => {
     };
 
   return {
+    id: generateId(),
     description: generateDescription(),
     dueDate,
     repeating,
