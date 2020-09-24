@@ -7,12 +7,19 @@ import {
   remove
 } from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`
+};
+
 export default class Task {
-  constructor(taskListContainer, changeData) {
+  constructor(taskListContainer, changeData, changeMode) {
     this._taskListContainer = taskListContainer;
     this._changeData = changeData;
     this._taskComponent = null;
     this._taskEditComponent = null;
+    this._changeMode = changeMode;
+    this._mode = Mode.DEFAULT;
 
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
@@ -40,11 +47,11 @@ export default class Task {
       return;
     }
 
-    if (this._taskListContainer.getElement().contains(prevTaskComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._taskComponent, prevTaskComponent);
     }
 
-    if (this._taskListContainer.getElement().contains(prevTaskEditComponent.getElement())) {
+    if (this._mode === Mode.EDITING) {
       replace(this._taskEditComponent, prevTaskEditComponent);
     }
 
@@ -57,19 +64,30 @@ export default class Task {
     remove(this._taskEditComponent);
   }
 
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replaceFormToCard();
+    }
+  }
+
   _replaceCardToForm() {
     replace(this._taskEditComponent, this._taskComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.EDITING;
   }
 
   _replaceFormToCard() {
     replace(this._taskComponent, this._taskEditComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.DEFAULT;
   }
 
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
+      this._taskEditComponent.reset(this._task);
       this._replaceFormToCard();
     }
   }
@@ -85,10 +103,8 @@ export default class Task {
 
   _handleFavoriteClick() {
     this._changeData(
-        Object.assign(
-            {},
-            this._task,
-            {
+        Object.assign({},
+            this._task, {
               isFavorite: !this._task.isFavorite
             }
         )
@@ -97,10 +113,8 @@ export default class Task {
 
   _handleArchiveClick() {
     this._changeData(
-        Object.assign(
-            {},
-            this._task,
-            {
+        Object.assign({},
+            this._task, {
               isArchive: !this._task.isArchive
             }
         )
