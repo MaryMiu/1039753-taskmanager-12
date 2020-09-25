@@ -8,6 +8,23 @@ import {
   humanizeTaskDueDate
 } from "../utils/task.js";
 
+const BLANK_TASK = {
+  color: COLORS[0],
+  description: ``,
+  dueDate: null,
+  repeating: {
+    mo: false,
+    tu: false,
+    we: false,
+    th: false,
+    fr: false,
+    sa: false,
+    su: false
+  },
+  isArchive: false,
+  isFavorite: false
+};
+
 const createTaskEditDateTemplate = (dueDate, isDueDate) => {
   return `<button class="card__date-deadline-toggle" type="button">
       date: <span class="card__date-status">${isDueDate ? `yes` : `no`}</span>
@@ -20,7 +37,7 @@ const createTaskEditDateTemplate = (dueDate, isDueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${humanizeTaskDueDate(dueDate)}"
+          value="${dueDate !== null ? humanizeTaskDueDate(dueDate) : ``}"
         />
       </label>
     </fieldset>` : ``}
@@ -63,23 +80,6 @@ const createTaskEditColorsTemplate = (currentColor) => {
     class="card__color card__color--${color}"
     >${color}</label
   >`).join(``);
-};
-
-const BLANK_TASK = {
-  color: COLORS[0],
-  description: ``,
-  dueDate: null,
-  repeating: {
-    mo: false,
-    tu: false,
-    we: false,
-    th: false,
-    fr: false,
-    sa: false,
-    su: false
-  },
-  isArchive: false,
-  isFavorite: false
 };
 
 export const createTaskEditTemplate = (data) => {
@@ -154,7 +154,7 @@ export const createTaskEditTemplate = (data) => {
 export default class TaskEdit extends SmartView {
   constructor(task = BLANK_TASK) {
     super();
-    this._data = TaskEdit.parseDataToTask(task);
+    this._data = TaskEdit.parseTaskToData(task);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._descriptionInputHandler = this._descriptionInputHandler.bind(this);
     this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
