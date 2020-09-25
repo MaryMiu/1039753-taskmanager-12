@@ -4,7 +4,7 @@ import {
 } from "../constants.js";
 import {
   isTaskRepeating,
-  humanizeTaskDueDate
+  formatTaskDueDate
 } from "../utils/task.js";
 
 const BLANK_TASK = {
@@ -40,7 +40,7 @@ const createTaskEditDateTemplate = (dueDate, isDueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${dueDate !== null ? humanizeTaskDueDate(dueDate) : ``}"
+          value="${dueDate !== null ? formatTaskDueDate(dueDate) : ``}"
         />
       </label>
     </fieldset>` : ``}
