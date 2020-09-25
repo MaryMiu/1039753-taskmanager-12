@@ -32,7 +32,7 @@ export const isTaskRepeating = (repeating) => {
 };
 
 export const formatTaskDueDate = (dueDate) => {
-  if(!(dueDate instanceof Date)) {
+  if (!(dueDate instanceof Date)) {
     return ``;
   }
 
