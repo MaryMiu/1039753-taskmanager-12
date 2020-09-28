@@ -808,3 +808,6 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.board__filter--active {
+  font-weight: bold;
+}

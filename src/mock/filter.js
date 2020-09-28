@@ -16,7 +16,7 @@ const taskToFilterMap = {
 export const generateFilter = (tasks) => {
   return Object.entries(taskToFilterMap).map(([filterName, countTasks]) => {
     return {
-      title: filterName,
+      name: filterName,
       count: countTasks(tasks),
     };
   });

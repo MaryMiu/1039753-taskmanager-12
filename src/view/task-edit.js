@@ -6,6 +6,7 @@ import {
   isTaskRepeating,
   formatTaskDueDate
 } from "../utils/task.js";
+import he from "he";
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -121,7 +122,7 @@ export const createTaskEditTemplate = (data) => {
               class="card__text"
               placeholder="Start typing your text here..."
               name="text"
-            >${description}</textarea>
+            >${he.encode(description)}</textarea>
           </label>
         </div>
 
@@ -158,6 +159,7 @@ export default class TaskEdit extends SmartView {
     this._datepicker = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._descriptionInputHandler = this._descriptionInputHandler.bind(this);
     this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
     this._dueDateChangeHandler = this._dueDateChangeHandler.bind(this);
@@ -199,6 +201,16 @@ export default class TaskEdit extends SmartView {
   _formSubmitHandler(evt) {
     evt.preventDefault();
     this._callback.formSubmit(TaskEdit.parseDataToTask(this._data));
+  }
+
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(TaskEdit.parseDataToTask(this._data));
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`.card__delete`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   _dueDateToggleHandler(evt) {
@@ -259,6 +271,7 @@ export default class TaskEdit extends SmartView {
     this._setInnerHandlers();
     this._setDatepicker();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setInnerHandlers() {
