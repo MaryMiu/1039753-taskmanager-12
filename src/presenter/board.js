@@ -15,8 +15,7 @@ import {
 import {
   SortType,
   UpdateType,
-  UserAction,
-  FilterType
+  UserAction
 } from "../constants.js";
 import BoardView from "../view/board.js";
 import SortView from "../view/sort.js";
@@ -48,15 +47,15 @@ export default class Board {
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
 
-    this._tasksModel.addObserver(this._handleModelEvent);
-    this._filterModel.addObserver(this._handleModelEvent);
-
     this._taskNewPresenter = new TaskNewPresenter(this._taskListComponent, this._handleViewAction);
   }
 
   init() {
     render(this._boardContainer, this._boardComponent, renderPosition.BEFOREEND);
     render(this._boardComponent, this._taskListComponent, renderPosition.BEFOREEND);
+
+    this._tasksModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
 
     this._renderBoard();
   }
@@ -75,10 +74,18 @@ export default class Board {
     return filtredTasks;
   }
 
-  createTask() {
-    this._currentSortType = SortType.DEFAULT;
-    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this._taskNewPresenter.init();
+  destroy() {
+    this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
+
+    remove(this._taskListComponent);
+    remove(this._boardComponent);
+
+    this._tasksModel.removeObserver(this._handleModelEvent);
+    this._filterModel.removeObserver(this._handleModelEvent);
+  }
+
+  createTask(callback) {
+    this._taskNewPresenter.init(callback);
   }
 
   _handleModeChange() {
